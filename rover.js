@@ -20,27 +20,13 @@ var RoverConstructor = function(name, position, architecture, direction) {      
   this.position = position;
   this.architecture = architecture;
   this.direction = direction;
-
-  switch (this.direction) {
-    case 'N':
-      var stringDirection = 'North';
-      break;
-    case 'S':
-      var stringDirection = 'South';
-      break;
-    case 'E':
-      var stringDirection = 'East ';
-      break;
-    case 'W':
-      var stringDirection = 'West ';
-      break;
-  }
+  this.stringDirection = 'North';
 
   this.printRover = function() {
     console.log(" ############ ROVER INFO #############",
                 "\n ## Name:", this.name, "                  ## ",
                 "\n ## Rover Position:", JSON.stringify(this.position), "          ## ",
-                "\n ## Rover Facing:", stringDirection, "            ## ",
+                "\n ## Rover Facing:", this.stringDirection, "            ## ",
                 "\n ## Rover looks like:", this.architecture, "       ## ",
                 "\n #####################################");
   }
@@ -134,7 +120,6 @@ function collisionDetection(rover, roverOldPosition, roverNewPosition) {
       return false;
     }
     else {
-      alert("COLLISION! Try to go around the object, not through it!");
       return true;
     }
   }
@@ -209,6 +194,7 @@ function decide(rover, collision, oldPosition, newPosition) {                   
   switch(collision) {                                                           //collided and must go back to last calculated position or there has been no collision and calculated position is valid.
     case true:
       rover.position = oldPosition;
+      alert("COLLISION! Try to go around the object, not through it!");
       break;
     case false:
       rover.position = newPosition;
@@ -310,15 +296,19 @@ function changeRoverArch(rover) {
 
   if (rover.direction == 'W') {
     rover.architecture = '[:<=:]';
+    rover.stringDirection = "West ";
   }
   else if (rover.direction == 'E') {
     rover.architecture = '[:=>:]';
+    rover.stringDirection = "East ";
   }
   else if (rover.direction == 'S') {
-    rover.architecture = '[:W:]';
+    rover.architecture = '[:W: ]';
+    rover.stringDirection = "South";
   }
   else {
-    rover.architecture = '[:M:]';
+    rover.architecture = '[:M: ]';
+    rover.stringDirection = "North";
   }
 }
 
